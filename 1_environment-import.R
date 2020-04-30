@@ -1,23 +1,20 @@
 #*********
 # Code developed by Adriane Esquivel Muelbert
-# Calculating montly values of CWD per plots using TerraClimate data
-# September 2018
 # Extract climate data using lat long information
-# Would not run in Windowns - ncdf4 only works in Mac or Linus
+# Importing mean (CRU), max, min (Terra climate) temperatura 
+# Calculating montly values of CWD per plots using TerraClimate data
+# Did not run on Windows in 2018 - ncdf4 was only working in Mac or Linus 
 #*********
 
 rm(list = ls())
-
 #Use raster library for manipulation
-library(raster); library (ncdf4); library (chron)
-
+library(raster); library (ncdf4); library (chron); library (getCRUCLdata)
+library ('R.utils'); library(fs)
+source ('3_environment-functions.R')
 ## Set directory ---------
-setwd('/Users/esquivea/Dropbox/Leeds/TREMOR/papers')
-source ('02_Trends-plot-parameters/03.3_environment-functions.R')
 
 #Load data =======
-md <- read.csv ('data/02_TM_metadata_2020-APR-17.csv',  row.names = 1)
-#md <- read.csv ('02_TM_metadata_2020-APR-17.csv',  row.names = 1)
+md <- read.csv ('md_exemple.csv')
 # Make coordinates very precise so it can match coordinates from NCDF
 md$Longitude.Decimal<- md$Longitude.Decimal + 0.000001
 md$Latitude.Decimal<- md$Latitude.Decimal + 0.000001
@@ -30,18 +27,20 @@ PreTOplots <- getClimateTerra ('ppt', md = md)
 TmaxTOplots <- getClimateTerra ('tmax', md = md)
 TminTOplots <- getClimateTerra ('tmin', md = md)
 
-write.csv (PreTOplots,'data/03a_precip-month_terra-clim2020-APR-17.csv')
-write.csv (TmaxTOplots,'data/03b_tmax-month_terra-clim2020-APR-17.csv')
-write.csv (TminTOplots,'data/03c_tmin-month_terra-clim2020-APR-17.csv')
-
-#PreTOplots <- read.csv ('data/03c_tmin-month_terra-clim2020-APR-17.csv',row.names = 1, stringsAsFactors=FALSE)
+write.csv (PreTOplots,'a_precip-month_terra-clim.csv')
+write.csv (TmaxTOplots,'b_tmax-month_terra-clim.csv')
+write.csv (TminTOplots,'c_tmin-month_terra-clim.csv')
 
 
 #*********************
 # CRU data for mean temperature ------
 #*********************
-
-CRU <- stack ('data/input/environment/cru_ts4.03.1901.2018.tmp.dat.nc')
+temp_nc <- file_temp(ext = ".nc.gz")
+url <- "https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.04/cruts.2004151855.v4.04/tmp/cru_ts4.04.1901.2019.tmp.dat.nc.gz" # this goes up to 2019
+download.file(url,destfile = temp_nc, mode = 'wb')
+isGzipped(temp_nc)
+nc_path <- gunzip(temp_nc)
+CRU <- stack (nc_path)
 
 nbands1<-dim (CRU)[3]
 #set up dataframe to store results
@@ -58,7 +57,7 @@ for(i in 1:nbands1){
 colnames (cruTOplots) <- paste (sapply(strsplit(as.character(colnames (cruTOplots)), ".", fixed = T), "[", 1),
                                 sapply(strsplit(as.character(colnames (cruTOplots)), ".", fixed = T), "[", 2), sep = '.')
 
-write.csv (cruTOplots,'data/03e_tmean-month_CRU2020-APR-17.csv')
+write.csv (cruTOplots,'e_tmean-month_CRU.csv')
 
 
 ############
@@ -87,7 +86,7 @@ max.Wdef_plots <- data.frame (max.Wdef, Plot.Code = md[,'Plot.Code'], lat = md[,
 
 # calculate CWD --- 
 CWD<-as.data.frame(matrix(nrow=nrow (Wdef),ncol=ncol (Wdef)/12-1))
-years.cwd <- sort (rep (seq (1959.01,2018.12, by=1),12))
+years.cwd <- sort (rep (seq (1959.01,2018.12, by=1),12)) # change here if the data is more recent than 2018.12
 colnames (CWD) <- unique (years.cwd)
 a <- vector ()
 
@@ -112,5 +111,5 @@ for (i in 1:nrow (Wdef)){
 
 rownames (CWD) <- md$Plot.Code
 
-write.csv (CWD,'data/03d_CWD-year_TerraClim2020-APR-17.csv')
+write.csv (CWD,'d_CWD-year_TerraClim.csv')
 

@@ -9,15 +9,12 @@ rm(list = ls())
 #Libraries
 library (reshape)
 
-## Set directory ---------
-setwd("/Users/esquivea/Dropbox/Leeds/TREMOR/papers/02_Trends-plot-parameters")
-data <- "/Users/esquivea/Dropbox/Leeds/TREMOR/papers/data"
 
 #Load data =======
-CWD <- read.csv (paste (data,'03.2CWDYearplot.csv',sep ='/'), row.names = 1, stringsAsFactors = FALSE)
-Tmean <- read.csv (paste (data,'03.2TmeanYearplot.csv',sep ='/'), row.names = 1, stringsAsFactors = FALSE)
-Tmax <- read.csv (paste (data,'03.2TmaxYearplot.csv',sep ='/'), row.names = 1, stringsAsFactors = FALSE)
-Tmin <- read.csv (paste (data,'03.2TminYearplot.csv',sep ='/'), row.names = 1, stringsAsFactors = FALSE)
+CWD <- read.csv ('2CWDYearplot.csv', row.names = 1)
+Tmean <- read.csv ('2TmeanYearplot.csv', row.names = 1)
+Tmax <- read.csv ('2TmaxYearplot.csv',row.names = 1)
+Tmin <- read.csv ('2TminYearplot.csv', row.names = 1)
 
 #*************
 # Climate trends ----
@@ -80,5 +77,5 @@ for (j in 1:length (var)) {
 climate.trends <- do.call("rbind",climate.list)
 climate.trends.cluster <- do.call("rbind",climate.list.cluster)
 
-write.csv (climate.trends,'03.3ClimatePlot.csv')
-write.csv (climate.trends.cluster,'03.3ClimateCluster.csv')
+write.csv (climate.trends,'3ClimatePlot.csv')
+write.csv (climate.trends.cluster,'3ClimateCluster.csv')

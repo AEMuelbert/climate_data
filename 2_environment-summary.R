@@ -25,18 +25,14 @@ rm(list = ls())
 #Libraries
 library (reshape)
 
-## Set directory ---------
-setwd("/Users/esquivea/Dropbox/Leeds/TREMOR/papers/")
-source ('02_Trends-plot-parameters/03.3_environment-functions.R')
-
 #Load data =======
-pd <- read.csv ('data/03_TM_plot-data_traits_2020-APR-17.csv', row.names = 1, stringsAsFactors=FALSE)
-md <- read.csv ('data/02_TM_metadata_2020-APR-17.csv',row.names = 1,stringsAsFactors=FALSE)
+pd <- read.csv ('pd.exemple.csv',stringsAsFactors=FALSE)
+md <- read.csv ('md_example.csv',stringsAsFactors=FALSE)
 
-CWD <- read.csv ('data/03d_CWD-year_TerraClim2020-APR-17.csv', row.names = 1, stringsAsFactors = FALSE)
-TmaxTOplots <- read.csv ('data/03b_tmax-month_terra-clim2020-APR-17.csv')
-TminTOplots <- read.csv ('data/03c_tmin-month_terra-clim2020-APR-17.csv')
-TmeanTOplots <- read.csv ('data/03e_tmean-month_CRU2020-APR-17.csv')
+CWD <- read.csv ('d_CWD-year_TerraClim2020-APR-17.csv', row.names = 1, stringsAsFactors = FALSE)
+TmaxTOplots <- read.csv ('b_tmax-month_terra-clim2020-APR-17.csv')
+TminTOplots <- read.csv ('c_tmin-month_terra-clim2020-APR-17.csv')
+TmeanTOplots <- read.csv ('e_tmean-month_CRU2020-APR-17.csv')
 
 
 
@@ -71,13 +67,13 @@ CWDCensus <- envCensus (CWDYear, pd = pd, var = 'CWD')
 
 
 # OUTPUTS ----
-write.csv (CWDCensus, 'data/03.1CWD_census_TerraClimate_2020-APR-17.csv')
-write.csv (TmaxCensus, 'data/03.1Tmax_census_TerraClimate_2019-APR-17.csv')
-write.csv (TminCensus, 'data/03.1Tmin_census_TerraClimate_2019-APR-17.csv')
+write.csv (CWDCensus, '1CWD_census_TerraClimate_2020-APR-17.csv')
+write.csv (TmaxCensus, '1Tmax_census_TerraClimate_2019-APR-17.csv')
+write.csv (TminCensus, '1Tmin_census_TerraClimate_2019-APR-17.csv')
 write.csv (TmeanCensus, 'data/03.1Tmean_census_CRU_2020-APR-17.csv')
 
-write.csv (TmeanYear,'data/03.2TmeanYearplot.csv')
-write.csv (TminYear,'data/03.2TminYearplot.csv')
-write.csv (TmaxYear,'data/03.2TmaxYearplot.csv')
-write.csv (CWDYear,'data/03.2CWDYearplot.csv')
+write.csv (TmeanYear,'2TmeanYearplot.csv')
+write.csv (TminYear,'2TminYearplot.csv')
+write.csv (TmaxYear,'2TmaxYearplot.csv')
+write.csv (CWDYear,'2CWDYearplot.csv')
 
