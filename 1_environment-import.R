@@ -14,7 +14,7 @@ source ('3_environment-functions.R')
 ## Set directory ---------
 
 #Load data =======
-md <- read.csv ('md_exemple.csv')
+md <- read.csv ('md_example.csv')
 # Make coordinates very precise so it can match coordinates from NCDF
 md$Longitude.Decimal<- md$Longitude.Decimal + 0.000001
 md$Latitude.Decimal<- md$Latitude.Decimal + 0.000001

@@ -26,7 +26,7 @@ rm(list = ls())
 library (reshape)
 
 #Load data =======
-pd <- read.csv ('pd.exemple.csv',stringsAsFactors=FALSE)
+pd <- read.csv ('pd.example.csv',stringsAsFactors=FALSE)
 md <- read.csv ('md_example.csv',stringsAsFactors=FALSE)
 
 CWD <- read.csv ('d_CWD-year_TerraClim2020-APR-17.csv', row.names = 1, stringsAsFactors = FALSE)
