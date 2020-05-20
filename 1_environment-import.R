@@ -9,7 +9,8 @@
 rm(list = ls())
 #Use raster library for manipulation
 library(raster); library (ncdf4); library (chron); library (getCRUCLdata)
-library ('R.utils'); library(fs)
+library ('R.utils'); 
+library(fs)
 source ('3_environment-functions.R')
 ## Set directory ---------
 
@@ -40,7 +41,7 @@ url <- "https://crudata.uea.ac.uk/cru/data/hrg/cru_ts_4.04/cruts.2004151855.v4.0
 download.file(url,destfile = temp_nc, mode = 'wb')
 isGzipped(temp_nc)
 nc_path <- gunzip(temp_nc)
-CRU <- stack (nc_path)
+CRU <- stack (nc_path, varname = 'tmp')
 
 nbands1<-dim (CRU)[3]
 #set up dataframe to store results
@@ -49,7 +50,7 @@ cruTOplots<-as.data.frame(matrix(nrow=nrow(md),ncol=nbands1))
 #Read in data from each band from path1
 for(i in 1:nbands1){
   dat<-raster(CRU,layer=i)
-  rain.vals<-extract(dat,cbind(md$Longitude.Decimal,md$Latitude.Decimal),method="bilinear")
+  rain.vals<-raster::extract(dat,cbind(md$Longitude.Decimal,md$Latitude.Decimal),method="bilinear")
   cruTOplots[,i]<-rain.vals
   colnames(cruTOplots)[i]<-names (CRU)[i]
 }
@@ -71,29 +72,29 @@ Wdef <- as.matrix (Wdef)
 # Start CWD calculating from wettest month - north and south hemespheres have dry season starting at different times
 # get information from wettest month - average across all years for each point
 months <- rep (c(1:12),ncol (Wdef)/12)
-max.Wdef <- vector ()
+max.W <- vector ()
 
 for (i in 1:nrow (Wdef)) {
         a <- cbind (months, Wdef[i,])
         b <- (aggregate (a[,2] ~ months, data = a, FUN = mean))
-        max.Wdef [i] <- b[which (b[,2]==max (b[,2])),'months']        
+        max.W [i] <- b[which (b[,2]==max (b[,2])),'months'] 
 }
 
 # start CWD calculating from January when wettest month is in December, i.e. wet season in between years 
-max.Wdef[max.Wdef==12] <- 1 # if the wettest month is DEC wet season is between years, therefore start calculating CWD from JAN
-max.Wdef_plots <- data.frame (max.Wdef, Plot.Code = md[,'Plot.Code'], lat = md[,'Latitude.Decimal'])
+max.W[max.W==12] <- 1 # if the wettest month is DEC wet season is between years, therefore start calculating CWD from JAN
+max.W_plots <- data.frame (max.W, Plot.Code = md[,'Plot.Code'], lat = md[,'Latitude.Decimal'])
 
 
 # calculate CWD --- 
 CWD<-as.data.frame(matrix(nrow=nrow (Wdef),ncol=ncol (Wdef)/12-1))
-years.cwd <- sort (rep (seq (1959.01,2018.12, by=1),12)) # change here if the data is more recent than 2018.12
+years.cwd <- sort (rep (seq (1959.01,2019.12, by=1),12)) # change here if the data is more recent than 2019.12
 colnames (CWD) <- unique (years.cwd)
 a <- vector ()
 
 #
 for (i in 1:nrow (Wdef)){
         a <- Wdef[i,]
-        j <- max.Wdef[i]
+        j <- max.W[i]
         if (j==1){
           # remove the first year (1958)
           a <- a[-c(1:12)] 

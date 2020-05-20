@@ -1,6 +1,6 @@
 getClimateTerra <- function (var, md, lat= 'Latitude.Decimal', long = 'Longitude.Decimal') {
   # enter in variable you want to download see: http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
-  baseurlagg <- paste0(paste0("http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_",var),"_1958_CurrentYear_GLOBE.nc")
+  baseurlagg <- paste0(paste0("http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_",var),"_1958_CurrentYear_GLOBE.nc#fillmismatch")
   
   # get temperature data 
   nc <- nc_open(baseurlagg)

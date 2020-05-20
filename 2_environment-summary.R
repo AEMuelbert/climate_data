@@ -24,15 +24,16 @@ rm(list = ls())
 
 #Libraries
 library (reshape)
+source ('3_environment-functions.R')
 
 #Load data =======
 pd <- read.csv ('pd.example.csv',stringsAsFactors=FALSE)
 md <- read.csv ('md_example.csv',stringsAsFactors=FALSE)
 
-CWD <- read.csv ('d_CWD-year_TerraClim2020-APR-17.csv', row.names = 1, stringsAsFactors = FALSE)
-TmaxTOplots <- read.csv ('b_tmax-month_terra-clim2020-APR-17.csv')
-TminTOplots <- read.csv ('c_tmin-month_terra-clim2020-APR-17.csv')
-TmeanTOplots <- read.csv ('e_tmean-month_CRU2020-APR-17.csv')
+CWD <- read.csv ('d_CWD-year_TerraClim.csv', row.names = 1, stringsAsFactors = FALSE)
+TmaxTOplots <- read.csv ('b_tmax-month_terra-clim.csv')
+TminTOplots <- read.csv ('c_tmin-month_terra-clim.csv')
+TmeanTOplots <- read.csv ('e_tmean-month_CRU.csv')
 
 
 
