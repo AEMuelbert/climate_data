@@ -128,7 +128,7 @@ TEMyear <- function (TEMmonth, md) {
   TEMyear
 }
 
-CWDYear <- function (CWD, md) {
+CalcCWDYear <- function (CWD, md) {
   CWD2 <- cbind (CWD, md$Plot.Code)
   colnames (CWD2) [ncol (CWD2)] <- 'Plot.Code'
   CWD2$Plot.Code <- as.factor(CWD2$Plot.Code)
@@ -172,7 +172,11 @@ envCensus <- function (env.data, pd, start.date = 1985, var) {
   census$idate <- ifelse (is.na (census$Census.Date0), census$Census.Date - 3, census$idate)
   # some censuses are shorter than on year. In that case use last three years before the census
   census$idate2 <- ifelse (census$Census.Date - census$idate < 1, census$Census.Date - 3, census$idate)
-  census <- census [-which (census$Census.Date < start.date),]  
+  if (unique (census$Census.Date < start.date) == F) {
+    
+  } else {
+    census <- census [-which (census$Census.Date < start.date),]  
+  }
   
   # The max temperature within the census interval
   

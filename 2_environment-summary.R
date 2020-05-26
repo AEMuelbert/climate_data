@@ -27,7 +27,7 @@ library (reshape)
 source ('3_environment-functions.R')
 
 #Load data =======
-pd <- read.csv ('pd.example.csv',stringsAsFactors=FALSE)
+pd <- read.csv ('pd_example.csv',stringsAsFactors=FALSE)
 md <- read.csv ('md_example.csv',stringsAsFactors=FALSE)
 
 CWD <- read.csv ('d_CWD-year_TerraClim.csv', row.names = 1, stringsAsFactors = FALSE)
@@ -53,7 +53,7 @@ TminYear <- TEMyear (TminMonth, md = md)
 TmeanYear <- TEMyear (TmeanMonth, md = md)
 
 # 1.2 CWD -----
-CWDYear <- CWDYear (CWD, md = md)
+CWDYear <- CalcCWDYear (CWD, md = md)
 
 # ****************
 # 2 Integrate data with census information ----
@@ -71,7 +71,7 @@ CWDCensus <- envCensus (CWDYear, pd = pd, var = 'CWD')
 write.csv (CWDCensus, '1CWD_census_TerraClimate_2020-APR-17.csv')
 write.csv (TmaxCensus, '1Tmax_census_TerraClimate_2019-APR-17.csv')
 write.csv (TminCensus, '1Tmin_census_TerraClimate_2019-APR-17.csv')
-write.csv (TmeanCensus, 'data/03.1Tmean_census_CRU_2020-APR-17.csv')
+write.csv (TmeanCensus, '03.1Tmean_census_CRU_2020-APR-17.csv')
 
 write.csv (TmeanYear,'2TmeanYearplot.csv')
 write.csv (TminYear,'2TminYearplot.csv')
