@@ -30,7 +30,7 @@ source ('functions/environment-functions.R')
 # functions from this file to be used here: TEMmonth, TEMyear, CalcCWDYear and envCensus
 
 #Load data =======
-pd <- read.csv ('pd_example.csv',stringsAsFactors=FALSE) # plot data, similar to the tree-by-tree data from ForestPlots.net
+pd <- read.csv ('censusd_example.csv',stringsAsFactors=FALSE) # dates of each census
 md <- read.csv ('md_example.csv',stringsAsFactors=FALSE) # metadata, similar to the metadata file from ForestPlots.net
 
 # Files generated in code 1-environment-import.R
