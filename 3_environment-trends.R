@@ -4,8 +4,6 @@
 # November 2018
 #*********
 
-rm(list = ls())
-
 #Libraries
 library (reshape)
 

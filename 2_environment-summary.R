@@ -20,16 +20,20 @@
 # (b) z-score min CWD
 # (c) mean z-score CWD - during the interval
 
-rm(list = ls())
+
 
 #Libraries
 library (reshape)
-source ('3_environment-functions.R')
+
+# Upload functions file --- 
+source ('functions/environment-functions.R')
+# functions from this file to be used here: TEMmonth, TEMyear, CalcCWDYear and envCensus
 
 #Load data =======
-pd <- read.csv ('pd_example.csv',stringsAsFactors=FALSE)
-md <- read.csv ('md_example.csv',stringsAsFactors=FALSE)
+pd <- read.csv ('pd_example.csv',stringsAsFactors=FALSE) # plot data, similar to the tree-by-tree data from ForestPlots.net
+md <- read.csv ('md_example.csv',stringsAsFactors=FALSE) # metadata, similar to the metadata file from ForestPlots.net
 
+# Files generated in code 1-environment-import.R
 CWD <- read.csv ('d_CWD-year_TerraClim.csv', row.names = 1, stringsAsFactors = FALSE)
 TmaxTOplots <- read.csv ('b_tmax-month_terra-clim.csv')
 TminTOplots <- read.csv ('c_tmin-month_terra-clim.csv')

@@ -1,3 +1,4 @@
+# Functions used in 1_environment-import ---------
 getClimateTerra <- function (var, md, lat= 'Latitude.Decimal', long = 'Longitude.Decimal') {
   # enter in variable you want to download see: http://thredds.northwestknowledge.net:8080/thredds/terraclimate_aggregated.html
   baseurlagg <- paste0(paste0("http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_",var),"_1958_CurrentYear_GLOBE.nc#fillmismatch")
@@ -31,9 +32,40 @@ getClimateTerra <- function (var, md, lat= 'Latitude.Decimal', long = 'Longitude
     ClimTOplots[i,] <- as.numeric(ncvar_get(nc, varid = var,start = start, count))
     colnames(ClimTOplots) <- t2
   }
+  if (var == 'ppt') {
+    print (paste ('Please check end.date in the begining of the code, this sould be =', 
+                  as.numeric (colnames (ClimTOplots) [ncol (ClimTOplots)]) + 2000))
+  }
   ClimTOplots
 }
 
+
+getCRU <- function (url,md, var = 'tmp') {
+  # extract climate data from CRU
+  temp_nc <- file_temp(ext = ".nc.gz")
+  download.file(url,destfile = temp_nc, mode = 'wb')
+  isGzipped(temp_nc)
+  nc_path <- gunzip(temp_nc)
+  CRU <- stack (nc_path, varname = var)
+  
+  nbands1<-dim (CRU)[3]
+  #set up dataframe to store results
+  cruTOplots<-as.data.frame(matrix(nrow=nrow(md),ncol=nbands1))
+  #Read in data from each band from path1
+  for(i in 1:nbands1){
+    dat<-raster(CRU,layer=i)
+    rain.vals<-raster::extract(dat,cbind(md$Longitude.Decimal,md$Latitude.Decimal),method="bilinear")
+    cruTOplots[,i]<-rain.vals
+    colnames(cruTOplots)[i]<-names (CRU)[i]
+  }
+  
+  colnames (cruTOplots) <- paste (sapply(strsplit(as.character(colnames (cruTOplots)), ".", fixed = T), "[", 1),
+                                  sapply(strsplit(as.character(colnames (cruTOplots)), ".", fixed = T), "[", 2), sep = '.')
+  cruTOplots
+}
+
+
+# Functions used in 2_environment-summary ---------
 yearlyCWD<- function (x){
   #function to calculate yearly values of CWD based on monthly values of WDef
   WD <- vector ()
