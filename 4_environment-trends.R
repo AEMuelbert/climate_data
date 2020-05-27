@@ -21,7 +21,7 @@ Tmin <- read.csv ('2TminYearplot.csv', row.names = 1)
 #*************
 
 # calculating trends in climate for all variables 
-# per plot and per census 
+# per plot and per cluster 
 
 var <- c('Tmean','Tmax','Tmin','CWD')
 climate.list <- list ()
