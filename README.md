@@ -12,3 +12,11 @@ Functions for the other codes
 
 ## 4_environment-trends.R
 Use products from '2_environment-summary.R' to calculate the linear trends for each of the variables per plot and per cluster (group of plots based on plot codes from the ForestPlots.net database)
+
+(draft below)
+## Input data 
+
+### md example 
+
+### pd example
+Columns: explain 
